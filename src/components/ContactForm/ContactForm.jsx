@@ -1,9 +1,18 @@
 import { useState } from 'react';
 import { Input, Button } from './ContactForm.styled';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact } from 'redux/contactsSlice';
+import { getContacts } from 'redux/selectors';
 
-export const ContactForm = ({ onSubmit, isNameHas }) => {
+export const ContactForm = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+
+  const contacts = useSelector(getContacts);
+
+  const isNameHas = name => {
+    return contacts.some(contact => contact.name === name);
+  };
 
   const handleChange = ({ name, value }) => {
     switch (name) {
@@ -23,6 +32,8 @@ export const ContactForm = ({ onSubmit, isNameHas }) => {
     setNumber('');
   };
 
+  const dispatch = useDispatch();
+
   const handleSubmit = event => {
     event.preventDefault();
 
@@ -31,12 +42,7 @@ export const ContactForm = ({ onSubmit, isNameHas }) => {
       return;
     }
 
-    const data = {
-      name,
-      number,
-    };
-
-    onSubmit(data);
+    dispatch(addContact(name, number));
 
     reset();
   };
