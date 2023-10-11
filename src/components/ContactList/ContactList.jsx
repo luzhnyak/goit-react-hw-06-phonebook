@@ -21,7 +21,6 @@ export const ContactList = () => {
             id={contact.id}
             name={contact.name}
             number={contact.number}
-            // onDelete={onDelete}
           />
         </li>
       ))}

@@ -6,9 +6,8 @@ export const Filter = () => {
   const dispatch = useDispatch();
   const filter = useSelector(getFilter);
 
-  const handleFilterChange = f => {
-    console.log(f);
-    return dispatch(setFilter(f));
+  const handleFilterChange = event => {
+    return dispatch(setFilter(event.target.value));
   };
 
   return (
@@ -18,7 +17,7 @@ export const Filter = () => {
         type="text"
         name="filter"
         value={filter}
-        onChange={event => handleFilterChange(event.target.value)}
+        onChange={handleFilterChange}
       />
     </>
   );
