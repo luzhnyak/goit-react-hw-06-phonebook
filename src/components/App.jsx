@@ -1,14 +1,25 @@
-import { useSelector } from 'react-redux';
-import { getContacts } from 'redux/selectors';
+import { useDispatch, useSelector } from 'react-redux';
+import { getContacts, getIsLoading } from 'redux/selectors';
 
 import { ContactList } from './ContactList/ContactList';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Section } from './Section/Section';
 import { Container } from './App.styled';
 import { Filter } from './Filter/Filter';
+import { fetchContacts } from 'redux/operations';
+import { useEffect } from 'react';
+import { Loader } from './Loader/Loader';
 
 export const App = () => {
+  const dispatch = useDispatch();
+
   const contacts = useSelector(getContacts);
+  const isLoading = useSelector(getIsLoading);
+
+  // Викликаємо операцію
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   return (
     <Container>
@@ -17,8 +28,9 @@ export const App = () => {
       </Section>
 
       <Section title="Contacts">
-        {contacts.length !== 0 && <Filter />}
-        <ContactList />
+        {isLoading && <Loader />}
+        {!isLoading && contacts.length > 0 && <Filter />}
+        {!isLoading && contacts.length > 0 && <ContactList />}
       </Section>
     </Container>
   );

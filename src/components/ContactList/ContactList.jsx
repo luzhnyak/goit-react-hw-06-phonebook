@@ -3,7 +3,7 @@ import { getContacts, getFilter } from 'redux/selectors';
 import { Contact } from 'components/Contact/Contact';
 
 const getFilteredContacts = (contacts, filter) => {
-  return contacts.filter(contact =>
+  return contacts?.filter(contact =>
     contact.name.toLowerCase().includes(filter.toLowerCase())
   );
 };
@@ -15,7 +15,7 @@ export const ContactList = () => {
 
   return (
     <ul>
-      {filteredContacts.map(contact => (
+      {filteredContacts?.map(contact => (
         <li key={contact.id}>
           <Contact
             id={contact.id}
